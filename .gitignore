@@ -10,6 +10,7 @@
 
 # deps
 node_modules/
+dist/
 
 # env
 .env
@@ -30,3 +31,4 @@ lerna-debug.log*
 
 .vercel
 .env*
+!.env.example
