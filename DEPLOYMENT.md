@@ -18,6 +18,8 @@ Configure these variables for Production and any Preview environments that shoul
 - `DATABASE_URL`: the Neon PostgreSQL connection string
 - `SECRET_PASSWORD`: a long random bearer token
 
+Do not add `NODE_ENV=production` manually. Vercel sets the runtime environment, while setting this variable during dependency installation can cause npm to omit build-time development dependencies.
+
 After changing an environment variable, redeploy the project so the new value is used.
 
 ## Database migrations
