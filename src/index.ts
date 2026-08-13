@@ -1,9 +1,10 @@
 import 'dotenv/config'
 import { Hono } from 'hono'
 import { bearerAuth } from 'hono/bearer-auth'
+import { getEnv } from './env.js'
 import students from './routes/student.js'
 
-const apiToken = process.env.SECRET_PASSWORD
+const apiToken = getEnv('SECRET_PASSWORD')
 
 if (!apiToken) {
   throw new Error('SECRET_PASSWORD is not configured')

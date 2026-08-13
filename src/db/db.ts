@@ -1,8 +1,9 @@
 import 'dotenv/config'
 import { neon } from '@neondatabase/serverless'
 import { drizzle } from 'drizzle-orm/neon-http'
+import { getEnv } from '../env.js'
 
-const connectionString = process.env.DATABASE_URL
+const connectionString = getEnv('DATABASE_URL')
 
 if (!connectionString) {
   throw new Error('DATABASE_URL is not configured')
