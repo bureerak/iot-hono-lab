@@ -1,28 +1,24 @@
-# DigitalOcean App Platform
+# Vercel
 
-This project is configured to run as a Node.js web service on DigitalOcean App Platform.
+Vercel detects the default Hono export in `src/index.ts` and deploys it as a Vercel Function. No custom server, port, build command, output directory, or `vercel.json` is required.
 
-## App settings
+## Project settings
 
-- Resource type: Web Service
-- Region: Singapore
-- Build command: `npm run build`
-- Run command: `npm start`
-- Health check path: `/health`
-- Source directory: `/`
+- Framework preset: Hono (normally detected automatically)
+- Root directory: `.`
+- Node.js version: 22.x (also pinned in `package.json`)
+- Build command: no override
+- Output directory: no override
+- Install command: no override
 
-App Platform supplies `PORT` automatically. Do not configure a fixed production port.
+## Environment variables
 
-## Runtime environment variables
-
-Configure these values in App Platform and mark both as encrypted secrets:
+Configure these variables for Production and any Preview environments that should access the API:
 
 - `DATABASE_URL`: the Neon PostgreSQL connection string
 - `SECRET_PASSWORD`: a long random bearer token
 
-`NODE_ENV=production` can be configured as a regular runtime variable.
-
-Do not upload `.env` to the repository or copy it into the App Platform build settings.
+After changing an environment variable, redeploy the project so the new value is used.
 
 ## Database migrations
 
@@ -40,9 +36,23 @@ npm run db:migrate
 
 Do not run the initial migration against a database where the `students` table was created previously without first reconciling the existing schema.
 
+## Local validation
+
+Run the Vercel development server with the Vercel CLI:
+
+```sh
+npx vercel dev
+```
+
+Check TypeScript without creating build output:
+
+```sh
+npm run typecheck
+```
+
 ## Smoke test
 
 ```sh
-curl https://YOUR-APP.ondigitalocean.app/health
-curl -H "Authorization: Bearer YOUR_TOKEN" https://YOUR-APP.ondigitalocean.app/api/student/1
+curl https://YOUR-PROJECT.vercel.app/health
+curl -H "Authorization: Bearer YOUR_TOKEN" https://YOUR-PROJECT.vercel.app/api/student/1
 ```
