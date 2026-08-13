@@ -1,16 +1,20 @@
 import type { Context } from 'hono'
+import { ZodError } from 'zod'
 import {
   StudentServiceError,
   studentService,
 } from '../service/student_service.js'
 
 function handleError(c: Context, error: unknown) {
+  if (error instanceof ZodError) {
+    return c.json({ error: error.issues[0]?.message ?? 'Invalid request' }, 400)
+  }
+
   if (error instanceof StudentServiceError) {
     const status = {
-      VALIDATION_ERROR: 400,
       STUDENT_NOT_FOUND: 404,
       STUDENT_ID_CONFLICT: 409,
-    }[error.code] as 400 | 404 | 409
+    }[error.code] as 404 | 409
 
     return c.json({ error: error.message }, status)
   }
